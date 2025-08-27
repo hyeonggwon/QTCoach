@@ -9,21 +9,21 @@ import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:flutter_naver_login/interface/types/naver_login_status.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter/foundation.dart'; // kReleaseMode를 사용하기 위해 필요
-import 'package:flutter_dotenv/flutter_dotenv.dart'; // dotenv 패키지 import
 
 // 자동으로 생성된 Firebase 설정 파일을 import 합니다.
 import 'firebase_options.dart';
+
+// --- 빌드 시 주입된 환경 변수 ---
+const String kakaoNativeAppKey = String.fromEnvironment('KAKAO_NATIVE_APP_KEY');
+const String googleWebClientId = String.fromEnvironment('GOOGLE_WEB_CLIENT_ID');
+const String backendUrl = String.fromEnvironment('BACKEND_URL');
 
 void main() async {
   // Flutter 앱이 실행될 준비가 될 때까지 기다립니다.
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 현재 빌드 모드에 맞는 .env 파일 로드
-  await dotenv.load(fileName: kReleaseMode ? ".env.release" : ".env.debug");
-
-  // .env 파일에서 카카오 네이티브 앱 키를 불러와 SDK를 초기화합니다.
-  kakao.KakaoSdk.init(nativeAppKey: dotenv.env['KAKAO_NATIVE_APP_KEY']!);
+  // 카카오 SDK를 초기화합니다.
+  kakao.KakaoSdk.init(nativeAppKey: kakaoNativeAppKey);
 
   // Firebase 앱을 초기화합니다.
   await Firebase.initializeApp(
@@ -88,9 +88,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isNaverLoading = false;
   bool _isKakaoLoading = false;
 
-  // .env 파일에서 백엔드 URL을 불러옵니다.
-  final String backendUrl = dotenv.env['BACKEND_URL']!;
-
   // --- 소셜 로그인 공통 처리 로직 ---
   Future<void> _signInWithSocial(String socialType, Future<String?> Function() getToken) async {
     if (!mounted) return;
@@ -149,8 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // .env 파일에서 구글 웹 클라이언트 ID를 불러옵니다.
-    final googleProvider = GoogleProvider(clientId: dotenv.env['GOOGLE_WEB_CLIENT_ID']!);
+    final googleProvider = GoogleProvider(clientId: googleWebClientId);
 
     return Scaffold(
       body: SafeArea(
