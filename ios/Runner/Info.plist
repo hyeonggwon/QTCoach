@@ -45,29 +45,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-        <key>CFBundleTypeRole</key>
-        <string>Editor</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>$(NAVER_URL_SCHEME)</string>
-        </array>
-      </dict>
-    </array>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>naversearchapp</string>
-      <string>naversearchthirdlogin</string>
-    </array>
-    <key>NidUrlScheme</key>
-    <string>$(NAVER_URL_SCHEME)</string>
-    <key>NidClientID</key>
-    <string>$(NAVER_CLIENT_ID)</string>
-    <key>NidClientSecret</key>
-    <string>$(NAVER_CLIENT_SECRET)</string>
-    <key>NidAppName</key>
-    <string>$(NAVER_CLIENT_NAME)</string>
 </dict>
 </plist>

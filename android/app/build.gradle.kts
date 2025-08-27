@@ -35,9 +35,6 @@ android {
         versionName = flutter.versionName
 
         // Read dart-define variables and create resources
-        resValue("string", "client_id", project.property("NAVER_CLIENT_ID") as String)
-        resValue("string", "client_secret", project.property("NAVER_CLIENT_SECRET") as String)
-        resValue("string", "client_name", project.property("NAVER_CLIENT_NAME") as String)
     }
 
     buildTypes {

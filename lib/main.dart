@@ -5,8 +5,6 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart' as kakao;
-import 'package:flutter_naver_login/flutter_naver_login.dart';
-import 'package:flutter_naver_login/interface/types/naver_login_status.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -85,14 +83,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool _isNaverLoading = false;
   bool _isKakaoLoading = false;
 
   // --- 소셜 로그인 공통 처리 로직 ---
   Future<void> _signInWithSocial(String socialType, Future<String?> Function() getToken) async {
     if (!mounted) return;
     setState(() {
-      if (socialType == 'naver') _isNaverLoading = true;
       if (socialType == 'kakao') _isKakaoLoading = true;
     });
 
@@ -123,7 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
     } finally {
       if (mounted) {
         setState(() {
-          if (socialType == 'naver') _isNaverLoading = false;
           if (socialType == 'kakao') _isKakaoLoading = false;
         });
       }
@@ -131,11 +126,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // --- 각 소셜 로그인 호출 함수 ---
-  Future<void> _signInWithNaver() => _signInWithSocial('naver', () async {
-    final result = await FlutterNaverLogin.logIn();
-    return result.status == NaverLoginStatus.loggedIn ? result.accessToken?.accessToken : null;
-  });
-
   Future<void> _signInWithKakao() => _signInWithSocial('kakao', () async {
     final isInstalled = await kakao.isKakaoTalkInstalled();
     final oAuthToken = isInstalled
@@ -170,10 +160,6 @@ class _LoginScreenState extends State<LoginScreen> {
               _isKakaoLoading
                   ? const CircularProgressIndicator()
                   : _buildSocialButton(text: '카카오로 로그인', color: const Color(0xFFFEE500), textColor: const Color(0xFF191919), onPressed: _signInWithKakao),
-              const SizedBox(height: 12),
-              _isNaverLoading
-                  ? const CircularProgressIndicator()
-                  : _buildSocialButton(text: '네이버로 로그인', color: const Color(0xFF03C75A), textColor: Colors.white, onPressed: _signInWithNaver),
               const SizedBox(height: 40),
             ],
           ),
@@ -203,7 +189,6 @@ class HomeScreen extends StatelessWidget {
   Future<void> _signOut(BuildContext context) async {
     try {
       await kakao.UserApi.instance.logout();
-      await FlutterNaverLogin.logOut();
       await FirebaseAuth.instance.signOut();
     } catch (e) {
       if (context.mounted) {
