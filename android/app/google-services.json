@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "324005331389",
+    "project_id": "qt-coach-12d01",
+    "storage_bucket": "qt-coach-12d01.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324005331389:android:44259ae18ff71a43b4d2d4",
+        "android_client_info": {
+          "package_name": "com.qt.coach"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "324005331389-7ld9m4uvbmevm36hoejrci5q20dpij9b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qt.coach",
+            "certificate_hash": "84a026b02f320270e578ca37e65608557f5e9fe7"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7w6ipyjQWIvQNP03mON8lJXInV9c7vec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
