@@ -8,6 +8,16 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// JSON 설정 파일 로더
+fun loadConfig(env: String): Map<String, Any> {
+    // android/ 기준으로 ../config/{env}.json을 읽음
+    val configFile = file("${rootDir}/../config/${env}.json")
+    if (!configFile.exists()) return emptyMap()
+    val parsed = groovy.json.JsonSlurper().parse(configFile)
+    @Suppress("UNCHECKED_CAST")
+    return (parsed as Map<String, Any>?) ?: emptyMap()
+}
+
 android {
     // ... (파일 상단 내용)
 
@@ -34,7 +44,8 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
 
-        // Read dart-define variables and create resources
+        // manifestPlaceholders 기본값 초기화 (빌드타입별로 덮어씀)
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = ""
     }
 
     buildTypes {
@@ -42,6 +53,19 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
+
+            // release.json로부터 KAKAO_NATIVE_APP_KEY 주입
+            val cfg = loadConfig("release")
+            (cfg["KAKAO_NATIVE_APP_KEY"] as? String)?.let { key ->
+                manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = key
+            }
+        }
+        debug {
+            // debug.json로부터 KAKAO_NATIVE_APP_KEY 주입
+            val cfg = loadConfig("debug")
+            (cfg["KAKAO_NATIVE_APP_KEY"] as? String)?.let { key ->
+                manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = key
+            }
         }
     }
 }

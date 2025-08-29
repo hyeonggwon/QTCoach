@@ -1,5 +1,5 @@
-# Uncomment this line to define a global platform for your project
-# platform :ios, '12.0'
+# 글로벌 iOS 최소 배포 타겟 설정
+platform :ios, '15.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -39,5 +39,29 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+  end
+
+  # Generate ios/Flutter/secrets.xcconfig from ../config/{debug|release}.json
+  require 'json'
+  project_dir = File.dirname(File.realpath(__FILE__))
+  config_name = 'debug'
+  installer.pods_project.build_configurations.each do |config|
+    if config.name.downcase == 'release'
+      config_name = 'release'
+    end
+  end
+  json_path = File.expand_path(File.join(project_dir, '..', 'config', "#{config_name}.json"))
+  out_path = File.expand_path(File.join(project_dir, 'Flutter', 'secrets.xcconfig'))
+  begin
+    data = JSON.parse(File.read(json_path))
+  rescue => e
+    Pod::UI.warn("Could not read #{json_path}: #{e}")
+    data = {}
+  end
+  FileUtils.mkdir_p(File.dirname(out_path))
+  File.open(out_path, 'w') do |f|
+    %w[KAKAO_NATIVE_APP_KEY GOOGLE_IOS_REVERSED_CLIENT_ID].each do |k|
+      f.puts "#{k}=#{data[k] || ''}"
+    end
   end
 end

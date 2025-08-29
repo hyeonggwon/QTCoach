@@ -29,7 +29,15 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "324005331389-c4bniro22clol1to2pc1bkdatugap89k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.qt.coach"
+              }
+            }
+          ]
         }
       }
     }
