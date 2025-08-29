@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -64,7 +55,38 @@ class DefaultFirebaseOptions {
     projectId: 'qt-coach-12d01',
     storageBucket: 'qt-coach-12d01.firebasestorage.app',
     androidClientId: '324005331389-7ld9m4uvbmevm36hoejrci5q20dpij9b.apps.googleusercontent.com',
+    iosClientId: '324005331389-c4bniro22clol1to2pc1bkdatugap89k.apps.googleusercontent.com',
     iosBundleId: 'com.qt.coach',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyD5Mg9BptKeSE2F-WZKipd_hfceclo-_Gw',
+    appId: '1:324005331389:web:8cf99594abd89233b4d2d4',
+    messagingSenderId: '324005331389',
+    projectId: 'qt-coach-12d01',
+    authDomain: 'qt-coach-12d01.firebaseapp.com',
+    storageBucket: 'qt-coach-12d01.firebasestorage.app',
+    measurementId: 'G-HQ1LB3164W',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDGHkGXqRNeiLQ2JCFhzHsuz2slAh8-t2U',
+    appId: '1:324005331389:ios:f57414becc0d9515b4d2d4',
+    messagingSenderId: '324005331389',
+    projectId: 'qt-coach-12d01',
+    storageBucket: 'qt-coach-12d01.firebasestorage.app',
+    androidClientId: '324005331389-7ld9m4uvbmevm36hoejrci5q20dpij9b.apps.googleusercontent.com',
+    iosBundleId: 'com.qt.qtCoach',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyD5Mg9BptKeSE2F-WZKipd_hfceclo-_Gw',
+    appId: '1:324005331389:web:b377b01b9a25dd7bb4d2d4',
+    messagingSenderId: '324005331389',
+    projectId: 'qt-coach-12d01',
+    authDomain: 'qt-coach-12d01.firebaseapp.com',
+    storageBucket: 'qt-coach-12d01.firebasestorage.app',
+    measurementId: 'G-QYWQJFLM8P',
   );
 
 }

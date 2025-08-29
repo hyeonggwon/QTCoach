@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider; // 이
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart' as kakao;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -13,6 +14,7 @@ import 'firebase_options.dart';
 
 // --- 빌드 시 주입된 환경 변수 ---
 const String kakaoNativeAppKey = String.fromEnvironment('KAKAO_NATIVE_APP_KEY');
+const String kakaoJavaScriptAppKey = String.fromEnvironment('KAKAO_JAVASCRIPT_APP_KEY');
 const String googleWebClientId = String.fromEnvironment('GOOGLE_WEB_CLIENT_ID');
 const String backendUrl = String.fromEnvironment('BACKEND_URL');
 
@@ -20,8 +22,12 @@ void main() async {
   // Flutter 앱이 실행될 준비가 될 때까지 기다립니다.
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 카카오 SDK를 초기화합니다.
-  kakao.KakaoSdk.init(nativeAppKey: kakaoNativeAppKey);
+  // 카카오 SDK를 초기화합니다. (웹은 JavaScript 키, 모바일은 Native 키 사용)
+  if (kIsWeb) {
+    kakao.KakaoSdk.init(javaScriptAppKey: kakaoJavaScriptAppKey);
+  } else {
+    kakao.KakaoSdk.init(nativeAppKey: kakaoNativeAppKey);
+  }
 
   // Firebase 앱을 초기화합니다.
   await Firebase.initializeApp(
